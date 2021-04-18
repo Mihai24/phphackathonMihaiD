@@ -22,22 +22,8 @@ class User extends Authenticatable
       return $this->hasMany('App\Models\Appointment');
     }
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    // protected $hidden = [
-    //     'password',
-    //     'remember_token',
-    // ];
+    public function role(){
+      return $this->belongsTo('App\Models\Role');
+    }
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    // protected $casts = [
-    //     'email_verified_at' => 'datetime',
-    // ];
 }

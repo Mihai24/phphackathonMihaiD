@@ -7,7 +7,7 @@ use App\Models\Programme;
 
 class ProgrammesController extends Controller
 {
-    public function viewProgrammes(){
+    public function viewProgrammes(){//Extragere programe din db si afisarea acestora
 
       $programmes = Programme::all();
 
@@ -15,14 +15,14 @@ class ProgrammesController extends Controller
 
     }
 
-    public function addProgram(Request $request){
+    public function addProgram(Request $request){//Adaugare program in db
 
       $this->validate($request, [
-        'program_name' => 'required|min:1|max:60',
         'participants' => 'required|integer',
-        'start_at' => 'required',
-        'end_at' => 'required',
-        'room' => 'required|integer'
+        'start_at' => 'required|date_format:Y-m-d H:i:s',
+        'end_at' => 'required|date_format:Y-m-d H:i:s',
+        'room_id' => 'required|integer'
+        'sport_id' => 'required|integer'
       ]);
 
       $start_datetime = $request->input('start_at');
@@ -30,18 +30,14 @@ class ProgrammesController extends Controller
 
       $checkDates = Programme::where('room', $request->input('room'))
                     ->whereBetween('start_at', [$start_datetime, $end_datetime])
-                    ->orWhereBetween('end_at', [$start_datetime, $end_datetime])
+                    ->whereBetween('end_at', [$start_datetime, $end_datetime])
                     ->orWhereRaw('? BETWEEN start_at and end_at', [$start_datetime])
                     ->orWhereRaw('? BETWEEN start_at and end_at', [$end_datetime])
                     ->first();
 
-      return response()->json($checkDates);
-
       if ($checkDates){
         return response()->json('Nu se poate rezerva sala in intervalul cerut.');
-      }
-
-      if ($start_datetime == $end_datetime){
+      } else if ($start_datetime == $end_datetime){
         return response()->json('Data de inceput nu poate fi indentica cu data de final.');
       } else {
 

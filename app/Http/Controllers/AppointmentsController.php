@@ -7,16 +7,6 @@ use App\Models\Appointment;
 use App\Models\User;
 use App\Models\Programme;
 
-/*
-
-același utilizator nu se poate înregistra la mai multe programe în același
-interval de timp (dacă kangoo jumps are loc de la 10 la 12, nu poate
-participa la pilates de la 11 la 13), chiar dacă programele sunt în camere diferite.
-De asemenea, trebuie să vă asigurați că un utilizator nu se înregistrează la programe
-care depășesc numărul maxim permis de utilizatori
-
-*/
-
 class AppointmentsController extends Controller
 {
     public function viewAppointments(){
@@ -60,15 +50,12 @@ class AppointmentsController extends Controller
                                 ->orWhereRaw('? BETWEEN programmes.start_at and programmes.end_at', [$programme->end_at])
                                 ->first();
 
-
-        /*Problema la dates, face pe jumatate*/
-
         if (!empty($checkDate)) {
           return response()->json('Aceasta data nu este disponibila.');
         } else {
           $appointment = new Appointment;
           $appointment->user_id = $user->id;
-          $appointment->program_id = $programme->id;
+          $appointment->programme_id = $programme->id;
           $appointment->save();
 
           return response()->json($appointment);

@@ -5,23 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Appointment extends Model
+class Sport extends Model
 {
     use HasFactory;
 
     public $timestamps = false;
 
     protected $fillable = [
-      'user_id',
-      'programme_id',
+      'sport_name',
     ];
 
     public function programmes(){
-      $this->belongsToMany('App\Models\Programme');
+      return $this->hasMany('App\Models\Programme');
     }
-
-    public function users(){
-      $this->belongsToMany('App\Models\User');
-    }
-
 }

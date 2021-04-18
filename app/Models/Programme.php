@@ -11,15 +11,21 @@ class Programme extends Model
 
     public $timestamps = false;
 
-    public int $room;
-
     protected $fillable = [
         'program_name',
         'participants',
         'start_at',
         'end_at',
-        'room'
+        'room',
     ];
+
+    public function room(){
+      return $this->belongsTo('App\Models\Room');
+    }
+
+    public function sport(){
+      return $this->belongsTo('App\Models\Sport');
+    }
 
     public function appointments(){
       return $this->hasMany('App\Models\Appointment');
