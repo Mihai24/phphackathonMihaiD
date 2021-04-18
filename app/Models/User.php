@@ -13,13 +13,16 @@ class User extends Authenticatable
 
     public $timestamps = false;
 
+    protected $role_id = 1;
+
     protected $fillable = [
         'name',
         'cnp',
+        'role_id',
     ];
 
     public function appointments(){
-      return $this->hasMany('App\Models\Appointment');
+      return $this->hasMany('App\Models\Booking');
     }
 
     public function role(){

@@ -17,14 +17,16 @@ class UsersController extends Controller
 
     public function addUser(Request $request){ //Inregistrare utilizator nou
 
+      // Validare nume: min. 3 caracter, max. 32 si camp obligatori
+      // Validare cnp: camp obligatoriu, sa fie unic in db ,lungime 13 si sa cuprinda doar cifre
+
       $this->validate($request, [
-        //Validare nume: min. 3 caracter, max. 32 si camp obligatori
         'name' => 'required|min:3|max:32',
-        //Validare cnp: camp obligatoriu, sa fie unic in db ,lungime 13 si sa cuprinda doar cifre
         'cnp' => 'required|size:13|regex:/^[0-9]+$/|unique:users'
       ]);
 
-      //Adaugare user in db dupa validare
+      // Adaugare user in db dupa validare
+
       $user = new User;
       $user->name = trim($request->input('name'));
       $user->cnp = trim($request->input('cnp'));

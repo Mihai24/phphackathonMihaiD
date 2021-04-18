@@ -12,11 +12,11 @@ class Programme extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        'program_name',
         'participants',
         'start_at',
         'end_at',
-        'room',
+        'room_id',
+        'sport_id',
     ];
 
     public function room(){
@@ -28,7 +28,7 @@ class Programme extends Model
     }
 
     public function appointments(){
-      return $this->hasMany('App\Models\Appointment');
+      return $this->hasMany('App\Models\Booking');
     }
 
 }
